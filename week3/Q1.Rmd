@@ -1,0 +1,45 @@
+---
+title: "Q1"
+author: "Zhen Zhang"
+date: "4/20/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(car)
+auto = read.csv("../data/Auto.csv", na.strings="?")
+auto$origin = factor(auto$origin, 1:3, c("US", "Europe", "Japan"))
+names(auto)
+head(auto)
+```
+# (a) Regress mpg on cylinders, displacement, weight, and year. Comment on the signs of the estimated coefficients and note which are significantly different from 0. What is value of R2?
+```{r}
+fit = lm(mpg ~ cylinders + displacement + weight + year, auto)
+summary(fit)
+```
+P(weight) and P(year) < .05,  so weight and year are significantly different from 0. And Multiple R-squared:  0.8091.
+
+# (b) Compute the variance inflation factors. What do they tell you?
+```{r}
+vif(fit)
+```
+Only year shows no multicollinearity.
+
+# (c) Drop weight from the model. What happens to the parameter estimates and R2?
+```{r}
+fit2 = lm(mpg ~ cylinders + displacement + year, auto)
+summary(fit2)
+```
+Displacement becomes significant. And R square is decreased.
+
+# (d) Drop weight and displacement from the model. What happens to the parameter estimates and R2?
+```{r}
+fit3 = lm(mpg ~ cylinders + year, auto)
+summary(fit3)
+```
+Cylinders becomes significant. And R square is decreased.
