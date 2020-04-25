@@ -1,0 +1,46 @@
+---
+title: "Q3"
+author: "Zhen Zhang"
+date: "4/24/2020"
+output: 
+  pdf_document: 
+    latex_engine: lualatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+set.seed(1)
+x1 = runif(100)
+x2 = 0.5 * x1 + rnorm(100) / 10
+y = 2 + 2 * x1 + 0.3 * x2 + rnorm(100)
+```
+# (a) Write out the form of the linear model. What are the regression coefficients?
+\beta B0 = \beta B1 = 2, \beta B2 = 0.3, \sigma s = 1,
+y = 2 + 2x1 + 0.3x2 + e.
+
+# (b) What is the correlation between x1 and x2? Create a scatterplot displaying the relationship between the variables.
+```{r}
+cor(x1, x2)
+plot(x1 ~ x2)
+```
+
+```{r}
+fit = lm(y ~ x1 + x2)
+summary(fit)
+```
+# (d) Now fit a least squares regression to predict y using only x1. Comment on your results. Can you reject the null hypothesis H0 :β1 =0?
+```{r}
+fit2 = lm(y ~ x1)
+summary(fit2)
+```
+
+# (e) Now fit a least squares regression to predict y using only x2. Comment on your results. Can you reject the null hypothesis H0 :β1 =0?
+```{r}
+fit3 = lm(y ~ x2)
+summary(fit3)
+```
+# (f) Do the results obtained in (c)–(e) contradict each other? Explain your answer.
+x1 and x2 are multicollinearity.

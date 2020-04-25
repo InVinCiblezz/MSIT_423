@@ -1,0 +1,44 @@
+---
+title: "Q6"
+author: "Zhen Zhang"
+date: "4/25/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(car)
+setwd("../data/")
+brand = read.table("brand.txt", header=T)
+names(brand)
+head(brand)
+```
+
+# (a) Find the variance inflation factors for the full model with both predictors in the model. What do they tell you?
+```{r}
+fit = lm(liking ~ moisture + sweetness, brand)
+vif(fit)
+```
+pefect.
+
+# (b) Obtain the analysis of variance table that decomposes the regression sum of squares into extra sums of squares associated with moisture; and with sweetness given moisture?
+```{r}
+anova(fit)
+```
+
+# (c) Obtain the analysis of variance table that decomposes the regression sum of squares into extra sums of squares associated with sweetness; and moisture given sweetness. What do you notice?
+```{r}
+fit2 = lm(liking ~ sweetness + moisture, brand)
+anova(fit2)
+```
+
+# (d) Regress liking on moisture content only. How does the estimate of B1 in the previous part compare with the estimate in the model with both predictors?
+```{r}
+fit3 = lm(liking ~ moisture, brand)
+coef(fit)
+coef(fit3)
+```
+

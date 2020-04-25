@@ -1,0 +1,29 @@
+---
+title: "Q8"
+author: "Zhen Zhang"
+date: "4/25/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+setwd("../data/")
+auto = read.csv("Auto.csv", na.strings="?")
+auto$origin = factor(auto$origin, 1:3, c("US", "Europe", "Japan"))
+names(auto)
+head(auto)
+```
+
+# (a) You should see that there are two dummy variables for the origin variable. If origin were dropped from the model (i.e., the two dummies were set equal to 0), by how much would RSS increase?
+```{r}
+fit = lm(log(mpg) ~ log(weight) + year + I(year^2) + as.factor(origin), auto)
+drop1(fit, test="F")
+```
+0.1857
+
+# (b) Can you reject the null hypothesis that both origin dummies are 0, so that none of the origin levels have different effects?
+
+0.0008523 < .05, no.

@@ -1,0 +1,61 @@
+---
+title: "Q4"
+author: "Zhen Zhang"
+date: "4/24/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+click = data.frame(sales=c(260.3,286.1,279.4,410.8,438.2,315.3,565.1,570.0,426.1,315.0, 403.6,220.5,343.6,644.6,520.4,329.5,426.0,343.2,450.4,421.8,245.6,503.3,375.7,265.5, 620.6,450.5,270.1,368.0,556.1,570.0,318.5,260.2,667.0,618.3,525.3,332.2,393.2,283.5, 376.2,481.8), ad=c(5,7,6,9,12,8,11,16,13,7,10,4,9,17,19,9,11,8,13,14,7,16,9,5,18,18, 5,7,12,13,8,6,16,19,17,10,12,8,10,12), reps=c(3,5,3,4,6,3,7,8,4,3,6,4,4,8,7,3,6,3,5, 5,4,6,5,3,6,5,3,6,7,6,4,3,8,8,7,4,5,3,5,5), eff=c(4,2,3,4,1,4,3,2,3,4,1,1,3,4,2,2,4, 3,4,2,4,3,3,3,4,3,2,2,1,4,3,2,2,2,4,3,3,3,4,2))
+```
+
+# (a) How much variation is left unexplained by the intercept model? (this will be called the null deviance)
+```{r}
+deviance(lm(sales ~ 1, click))
+```
+
+# (b) How much variation is explained by adding ad to the intercept model?
+```{r}
+deviance(lm(sales ~ 1, click)) - deviance(lm(sales ~ ad, click))
+```
+# (c) How much additional variation is explained by adding reps to a model that already has ad in it?
+```{r}
+deviance(lm(sales ~ ad, click)) - deviance(lm(sales ~ ad + reps, click))
+```
+# (d) How much additional variation is explained by adding eff to a model that already has ad and reps in it?
+```{r}
+deviance(lm(sales ~ ad + reps, click)) - deviance(lm(sales ~ ad + reps + eff, click))
+```
+# (e) How much variation is unexplained by a model having all three predictors?
+71043.94
+
+# (f) How much less variation is explained if we drop ad from a model with all three predictors in it?
+```{r}
+deviance(lm(sales ~ reps + eff, click)) - deviance(lm(sales ~ ad + reps + eff, click))
+```
+# (g) Compute R2 for the three-predictor model “by hand” using only the numbers you have found above. Confirm your answer by having R compute it.
+```{r}
+fit = lm(sales ~ ad + reps + eff, click)
+summary(fit)
+(598253 - 71043.94) / 598253
+```
+
+# (h) Compute adjusted R2 by hand and confirm it.
+```{r}
+1 - ((1 - 0.8812477) * 39 / 36)
+```
+
+# (i) Compute the F statistic for the overall test of significance by hand.
+```{r}
+((598253 - 71043.94) / 3) / (71043.94 / 36)
+```
+
+# (j) Compute the F statistic to test H0 : B1 = 0 by hand.
+```{r}
+44295.35 / (71043.94 / 36)
+```
+

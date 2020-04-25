@@ -1,0 +1,56 @@
+---
+title: "Q7"
+author: "Zhen Zhang"
+date: "4/25/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+#install.packages("car") # only do this once
+library(car)   # do this every R session
+setwd("../data/")
+quality = read.csv("quality.csv")
+str(quality)
+summary(quality)
+```
+
+# (a) How much variation is left unexplained by the intercept model? (this will be called the null deviance)
+```{r}
+deviance(lm(defect ~ 1, quality))
+```
+
+# (b) How much variation is explained by adding rate to the intercept model?
+```{r}
+deviance(lm(defect ~ 1, quality)) - deviance(lm(defect ~ rate, quality))
+```
+# (c) How much additional variation is explained by adding am to a model that already has rate in it?
+```{r}
+deviance(lm(defect ~ rate, quality)) - deviance(lm(defect ~ rate + am, quality))
+```
+# (d) How much variation is unexplained by a model having both predictors?
+```{r}
+deviance(lm(defect ~ rate + am, quality))
+```
+# (e) How much less variation is explained if we drop rate from a model with both predictors in it?
+```{r}
+deviance(lm(defect ~ am, quality)) - deviance(lm(defect ~ rate + am, quality))
+```
+
+# (f) Compute R2 for the two-predictor model “by hand” using only the numbers you have found above. Confirm your answer by having R compute it.
+```{r}
+(10929.29 - 2355.319) / 10929.29
+```
+
+# (g) Compute the F statistic for the overall test of significance by hand.
+```{r}
+((10929.29 - 2355.319)/2) / (2355.319/27)
+```
+
+# (h) Using the two-variable model, compute the F statistic to test H0 : B1 = 0 by hand (where B1 is for rate) (hint: it is in the drop1 output).
+```{r}
+5440.521/(2355.319/27)
+```
+

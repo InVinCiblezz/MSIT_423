@@ -1,0 +1,53 @@
+---
+title: "Q2"
+author: "Zhen Zhang"
+date: "4/24/2020"
+output: 
+  pdf_document: 
+    latex_engine: lualatex
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(car)
+setwd("../data/")
+part = read.csv("part.csv", na.strings="?")
+names(part)
+head(part)
+```
+# (a) Model 1: regress log(y + 1) on log(x + 1) and tx. Give the output.
+```{r}
+fit = lm(log(y + 1) ~ log(x + 1) + tx, part)
+summary(fit)
+```
+
+# (b) Model 2: regress log(y + 1) on log(x + 1), tx and log(wc + 1). Give the output.
+```{r}
+fit2 = lm(log(y + 1) ~ log(x + 1) + tx + log(wc + 1), part)
+summary(fit2)
+```
+
+# (c) Use the following notation in answering the questions: log(y+1)=\beta B0 +\beta B1log(x+1)+\beta B2tx+\beta B3log(wc+1)+e, where \beta B3 is constrained to be 0 in Model 1 and log is the natural log. Based on Model 1, does participation have a significant effect on future spending? Explain. Note: to receive full credit you should state null and alternative hypotheses and do something to determine whether H0 can be rejected at the 5% level.
+p-value: < 2e-16, Model 1 is significant.
+
+# (d) Using Model 1, post-period spending is how many times greater for those who participate than for those who do not? Note that this question asks about spending and not log spending. Another way to ask this question is, suppose there are two people with identical pre-period spending, but one participates and the other does not. If y1 is the post-contest spending of a participant, and y0 is the post-contest spending of a non-participant, how many times greater is (y1 + 1) than (y0 + 1)?
+log((y1+1)/(y0+1)) = \beta B2, (y1+1)/(y0+1) = e ^ \beta B2
+
+# (e) Is (y + 1) proportional to (x + 1), i.e., is spending in the week after the contest proportional to pre-contest spending? How do you know? Note: to receive full credit, state a null and alternative hypothesis and do something to determine whether or not H0 can be rejected.
+H0:\beta B1 = 1, 0.80318 + 1.96 * 0.01205 < 1, H0 can be rejected.
+
+# (f) Why is the magnitude of the tx variable so different in Model 2 (0.050) than in Model 1 (0.244)?
+Because its has multicollinearity with log(wc + 1). Since tx = 0 then wc = 0.
+
+# (g) Now consider Model 2. How do the results from Model 2 change your conclusions about how participation affects future spending. I am looking for you to summarize the key learnings from Model 2 succinctly.
+tx becomes insiginificant. wc is siginificant.
+
+# (h) Generate the normal probability plot for Model 2. What specifically does the plot tell you, and how does it (i.e., what the plot tells you) affect the conclusions you have drawn from the previous parts.
+```{r}
+plot(fit2)
+```
+
+# (i) What do the results of this analysis suggest the company should do in the future when designing social media contests?

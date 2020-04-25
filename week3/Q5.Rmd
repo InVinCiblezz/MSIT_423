@@ -1,0 +1,42 @@
+---
+title: "Q5"
+author: "Zhen Zhang"
+date: "4/24/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(car)
+setwd("../data/")
+commericial = read.table("commercial.txt", header=T)
+names(commericial)
+head(commericial)
+```
+# (a) Obtain the analysis of variance table that decomposes the regression sum of squares into extra sums of squares associated with X4; with X1 given X4; with X2 given X1 and X4; and with X3 given X1, X2 and X4. Hint use the lm and anova functions.
+```{r}
+fit = lm(y ~ x4 + x1 + x2 + x3, commericial) 
+anova(fit)
+```
+
+
+# (b) Test whether X3 can be dropped from the regression model given that X1, X2 and X4 are retained. Use the F test statistic and level of significance of .01. State the null and alternative hypotheses, test statistic, P-value and decision.
+```{r}
+drop1(fit, test = "F")
+```
+
+
+# (c) Test whether both X2 and X3 can be dropped from the regression model given that X1 and X4 are retained; use alpha = 0.01. State the null and alternative hypotheses, test statistic, P -value and decision. Hint: use the pf function to find P values.
+```{r}
+fit2 = lm(y ~ x1 + x4, commericial)
+summary(fit2)
+"???"
+```
+# (d) Find the variance inflation factors for the full model with all four predictors in the model. What do they tell you?
+```{r}
+vif(fit)
+```
+
