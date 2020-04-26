@@ -1,0 +1,23 @@
+---
+title: "Q9"
+author: "Zhen Zhang"
+date: "4/25/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r}
+paint = data.frame(
+type=factor(c(rep(1,9), rep(2,9))),
+time=factor(rep(c(rep(20,3), rep(25,3), rep(30,3)), 2)), y=c(74,64,50, 73,61,44, 78,85,92, 92,86,68, 98,73,88, 66,45,85))
+
+fit = lm(y ~ type * time, paint) 
+summary(fit)
+drop1(fit, test="F") 
+summary(fit)
+with(paint, interaction.plot(type, time, y, col=1:3)) 
+with(paint, interaction.plot(time, type, y, col=1:2))
+```
+

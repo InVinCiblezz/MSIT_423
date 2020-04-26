@@ -1,0 +1,28 @@
+---
+title: "Q10"
+author: "Zhen Zhang"
+date: "4/25/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+anode = data.frame(
+pos = factor(c(rep(1,9), rep(2,9))),
+temp = factor(rep(c(rep(800,3), rep(825,3), rep(850,3)), 2)), density = c( 570,565,583, 1063,1080,1043, 565,510,590,
+528,547,521, 988,1026,1004, 526,538,532))
+
+fit = lm(density ~ pos * temp, anode)
+summary(fit)
+drop1(fit, test="F")
+interaction.plot(anode$pos, anode$temp, anode$density, col = 1:3)
+interaction.plot(anode$temp, anode$pos, anode$density, col = 1:2)
+
+fit2 = lm(density ~ pos + temp, anode)
+drop1(fit2, test="F") 
+summary(fit2)
+```
+
